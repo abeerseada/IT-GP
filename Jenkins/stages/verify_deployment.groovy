@@ -1,4 +1,4 @@
-def run() {
+def call() {
     stage('Verify Deployment') {
         sshagent(credentials: [env.SSH_CREDS]) {
             sh """

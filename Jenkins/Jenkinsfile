@@ -8,7 +8,7 @@ pipeline {
     environment {
         REPO_URL   = 'https://github.com/abeerseada/sdn'
         REPO_DIR   = '/opt/sdn'
-        SSH_CREDS  = 'ec2-ssh-key'          // Jenkins credential ID (SSH private key)
+        SSH_CREDS  = 'ec2-ssh-key'        
         SSH_USER   = 'ubuntu'
     }
 
@@ -17,12 +17,12 @@ pipeline {
         stage('Run Pipeline') {
             steps {
                 script {
-                    load('Jenkins/stages/validate_parameters.groovy').run()
-                    load('Jenkins/stages/clone_repo.groovy').run()
-                    load('Jenkins/stages/reset_deployment.groovy').run()
-                    load('Jenkins/stages/deploy_topology.groovy').run()
-                    load('Jenkins/stages/configure_switches.groovy').run()
-                    load('Jenkins/stages/verify_deployment.groovy').run()
+                    load('Jenkins/stages/validate_parameters.groovy').call()
+                    load('Jenkins/stages/clone_repo.groovy').call()
+                    load('Jenkins/stages/reset_deployment.groovy').call()
+                    load('Jenkins/stages/deploy_topology.groovy').call()
+                    load('Jenkins/stages/configure_switches.groovy').call()
+                    load('Jenkins/stages/verify_deployment.groovy').call()
                 }
             }
         }

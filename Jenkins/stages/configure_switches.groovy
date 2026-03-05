@@ -1,4 +1,4 @@
-def run() {
+def call() {
     stage('Configure OVS Switches') {
         sshagent(credentials: [env.SSH_CREDS]) {
             sh """

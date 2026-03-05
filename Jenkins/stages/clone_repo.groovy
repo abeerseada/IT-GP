@@ -1,4 +1,4 @@
-def run() {
+def call() {
     stage('Clone / Update Repo') {
         sshagent(credentials: [env.SSH_CREDS]) {
             sh """

@@ -1,4 +1,4 @@
-def run() {
+def call() {
     stage('Deploy ContainerLab Topology') {
         sshagent(credentials: [env.SSH_CREDS]) {
             sh """

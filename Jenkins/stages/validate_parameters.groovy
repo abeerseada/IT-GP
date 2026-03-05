@@ -1,4 +1,4 @@
-def run() {
+def call() {
     stage('Validate Parameters') {
         script {
             if (!params.TARGET_HOST?.trim()) {

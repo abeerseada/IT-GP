@@ -13,6 +13,7 @@ terraform.rc
 
 # SSH Keys & Secrets
 *.pem
+.env
 *.key
 *.p12
 *.pfx

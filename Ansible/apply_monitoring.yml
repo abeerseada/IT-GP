@@ -1,0 +1,62 @@
+---
+- name: apply prometheus and grafana docker compose on jenkins master
+  hosts: jenkins_master
+  become: true
+
+  tasks:
+    - name: Ensure docker service is enabled and started
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+        daemon_reload: true
+
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Remove old monitoring directory if exists
+      file:
+        path: /home/ubuntu/monitoring
+        state: absent
+
+    - name: Create monitoring directory 
+      ansible.builtin.file:
+        path: /home/ubuntu/monitoring
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Copy monitoring stack (compose + config) to server
+      copy:
+        src: ../monitoring/
+        dest: /home/ubuntu/monitoring/
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Ensure Prometheus data directory exists
+      file:
+        path: /home/ubuntu/monitoring/data
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0777'
+
+    - name: Fix permissions for Prometheus data directory
+      ansible.builtin.command: chmod -R 777 /home/ubuntu/monitoring/data
+
+
+    - name: Inject Slack webhook URL into alertmanager config
+      ansible.builtin.replace:
+        path: /home/ubuntu/monitoring/config/alertmanager.yml
+        regexp: "\\$SLACK_WEBHOOK_URL"
+        replace: "{{ lookup('env', 'SLACK_WEBHOOK_URL') or (lookup('file', playbook_dir + '/../monitoring/.env') | regex_search('SLACK_WEBHOOK_URL=(.+)', '\\1') | first) }}"
+
+    - name: apply docker_compose file
+      community.docker.docker_compose_v2:
+        project_src: /home/ubuntu/monitoring
+        state: present

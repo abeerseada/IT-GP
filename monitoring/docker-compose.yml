@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - /home/ubuntu/monitoring/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /home/ubuntu/monitoring/config/alert.rules.yml:/etc/prometheus/rules/alert.rules.yml
+      - /home/ubuntu/monitoring/data:/prometheus
+    ports:
+      - "9090:9090"
+    restart: always
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - /home/ubuntu/monitoring/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    env_file:
+      - /home/ubuntu/monitoring/.env
+    ports:
+      - "9093:9093"
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - /home/ubuntu/monitoring/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    restart: always
+
+volumes:
+  grafana-storage:

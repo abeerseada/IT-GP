@@ -1,0 +1,43 @@
+---
+- name: Install SDN prerequisites (OVS + ContainerLab) on jenkins_slave
+  hosts: jenkins_slave
+  become: true
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    # ── Open vSwitch ──────────────────────────────────────────────
+    - name: Install Open vSwitch
+      apt:
+        name:
+          - openvswitch-switch
+          - openvswitch-common
+        state: present
+
+    - name: Ensure OVS service is enabled and started
+      systemd:
+        name: openvswitch-switch
+        enabled: true
+        state: started
+        daemon_reload: true
+
+    # ── ContainerLab ──────────────────────────────────────────────
+    - name: Download ContainerLab install script
+      get_url:
+        url: https://get.containerlab.dev
+        dest: /tmp/install-clab.sh
+        mode: '0755'
+
+    - name: Install ContainerLab
+      command: bash /tmp/install-clab.sh
+      args:
+        creates: /usr/bin/clab
+
+    - name: Clean up ContainerLab install script
+      file:
+        path: /tmp/install-clab.sh
+        state: absent

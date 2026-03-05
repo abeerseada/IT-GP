@@ -11,7 +11,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_launch_template" "spot_template" {
   name_prefix   = "fcis-template"
   image_id      = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
 
   key_name = var.key_name
 

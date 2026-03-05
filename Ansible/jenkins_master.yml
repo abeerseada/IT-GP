@@ -1,0 +1,38 @@
+---
+- name: Run Jenkins as Docker container on master
+  hosts: jenkins_master
+  become: true
+  vars:
+    jenkins_image: "jenkins/jenkins:lts"
+    jenkins_container_name: "jenkins"
+    jenkins_home: /var/jenkins_home
+  tasks:
+
+    - name: Pull Jenkins docker image
+      docker_image:
+        name: "{{ jenkins_image }}"
+        source: pull
+
+    - name: Create docker volume for jenkins data
+      docker_volume:
+        name: jenkins_data
+
+    - name: Run Jenkins container with full docker access
+      docker_container:
+        name: "{{ jenkins_container_name }}"
+        image: "{{ jenkins_image }}"
+        state: started
+        restart_policy: always
+
+        published_ports:
+          - "8080:8080"
+          - "50000:50000"
+
+        volumes:
+          - "jenkins_data:{{ jenkins_home }}"
+          - "/var/run/docker.sock:/var/run/docker.sock"
+          - "/usr/bin/docker:/usr/bin/docker"
+
+        groups:
+          - 999
+

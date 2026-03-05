@@ -1,0 +1,29 @@
+---
+- name: install node_exporter on master and slave 
+  hosts: jenkins_master:jenkins_slave
+  become: true
+
+  tasks:
+    - name: update apt
+      apt:
+        update_cache: yes
+
+    - name: enable universe repo 
+      apt_repository:
+        repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
+        state: present
+
+    - name: re-update apt
+      apt:
+        update_cache: yes
+
+    - name: install prometheus-node_exporter
+      apt:
+        name: prometheus-node-exporter
+        state: present
+
+    - name: Ensure node exporter is enabled and running
+      service:
+        name: prometheus-node-exporter
+        state: started
+        enabled: yes

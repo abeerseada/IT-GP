@@ -1,0 +1,41 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+terraform.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# SSH Keys & Secrets
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Screenshots & Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Shell scripts (optional - remove if you want to track them)
+# 1.sh
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log

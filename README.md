@@ -120,6 +120,16 @@ Installs and configures:
 - Script Path: `Jenkinsfile`
 - Add GitHub webhook: `http://<EC2_IP>:8080/github-webhook/`
 
+**GitHub Webhook Configuration:**
+
+![GitHub Webhook](pics/Screenshot%202026-03-06%20at%201.04.53%20AM.png)
+
+**Jenkins Pipeline (deploy-sdn):**
+
+![Jenkins Pipeline Status](pics/Screenshot%202026-03-06%20at%2011.04.45%20PM.png)
+
+![Jenkins Build #13 - Successful](pics/Screenshot%202026-03-07%20at%2012.24.49%20AM.png)
+
 ## Services & Access
 
 | Service | URL | Description |
@@ -129,6 +139,18 @@ Installs and configures:
 | Grafana | `http://<EC2_IP>:3000` | Dashboards |
 | Alertmanager | `http://<EC2_IP>:9093` | Alert routing |
 | Ryu FlowManager | `http://<EC2_IP>:8081/home/index.html` | SDN controller UI |
+
+## Monitoring
+
+**Prometheus Target Health (Jenkins + Node Exporter — all UP):**
+
+![Prometheus Targets](pics/Screenshot%202026-03-06%20at%2011.03.54%20PM.png)
+
+**Jenkins Metrics (scraped by Prometheus):**
+
+![Jenkins Metrics](pics/Screenshot%202026-03-06%20at%2011.04.11%20PM.png)
+
+![Node Exporter Metrics](pics/Screenshot%202026-03-06%20at%2011.04.24%20PM.png)
 
 ## Alerts
 
@@ -140,6 +162,28 @@ Alerts are triggered for:
 - Container down
 
 Notifications are delivered to Slack (`#alerts` channel).
+
+**Slack Alert Notifications:**
+
+![Slack Alerts](pics/Screenshot%202026-03-06%20at%201.17.40%20AM.png)
+
+## SDN Network
+
+**ContainerLab Running Containers (Fat-Tree k=4 topology):**
+
+![ContainerLab Containers](pics/Screenshot%202026-03-06%20at%2011.03.19%20PM.png)
+
+**Connectivity Test (ping between hosts):**
+
+![Ping Test](pics/Screenshot%202026-03-06%20at%2011.03.09%20PM.png)
+
+**Ryu FlowManager — Switch Overview:**
+
+![Ryu FlowManager Home](pics/Screenshot%202026-03-06%20at%2011.03.44%20PM.png)
+
+**Ryu FlowManager — Topology View:**
+
+![Ryu Topology](pics/Screenshot%202026-03-06%20at%2011.03.36%20PM.png)
 
 ## Related Repository
 

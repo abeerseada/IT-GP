@@ -17,6 +17,15 @@ resource "aws_launch_template" "spot_template" {
 
   vpc_security_group_ids = [aws_security_group.main_sg.id]
 
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      volume_size           = 30
+      volume_type           = "gp3"
+      delete_on_termination = true
+    }
+  }
+
   instance_market_options {
     market_type = "spot"
   }

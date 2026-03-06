@@ -9,6 +9,7 @@ variable "vpc_cidr" {
 variable "key_name" {
   description = "EC2 key pair name"
   type        = string
+  default     = "fcis-key"
 }
 
 variable "allowed_ssh_cidr" {

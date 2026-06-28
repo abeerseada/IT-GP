@@ -26,9 +26,6 @@ scrape_configs:
 
   - job_name: jenkins
     metrics_path: /prometheus
-    basic_auth:
-      username: 'fcis'
-      password: 'fcis'
     static_configs:
       - targets: ['172.17.0.1:8080']
 

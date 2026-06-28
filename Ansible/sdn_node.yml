@@ -1,6 +1,6 @@
 ---
-- name: Install SDN prerequisites (OVS + ContainerLab) on jenkins_slave
-  hosts: jenkins_slave
+- name: Install SDN prerequisites (OVS + ContainerLab) on jenkins_master
+  hosts: jenkins_master
   become: true
 
   tasks:

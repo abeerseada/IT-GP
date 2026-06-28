@@ -1,9 +1,7 @@
 def call() {
     stage('Validate Parameters') {
         script {
-            if (!params.TARGET_HOST?.trim()) {
-                error "TARGET_HOST parameter is required."
-            }
+            echo "Deploying to master: ${env.TARGET_HOST}"
         }
     }
 }

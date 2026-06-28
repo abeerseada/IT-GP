@@ -1,15 +1,12 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'TARGET_HOST', defaultValue: '', description: 'IP address of the EC2 instance to deploy to')
-    }
-
     environment {
         REPO_URL   = 'https://github.com/abeerseada/sdn'
         REPO_DIR   = '/opt/sdn'
-        SSH_CREDS  = 'ec2-ssh-key'        
+        SSH_CREDS  = 'ec2-ssh-key'
         SSH_USER   = 'ubuntu'
+        TARGET_HOST = '3.121.236.53'
     }
 
     stages {
@@ -31,8 +28,8 @@ pipeline {
 
     post {
         success {
-            echo "SDN topology deployed successfully on ${params.TARGET_HOST}"
-            echo "Ryu FlowManager UI available at: http://${params.TARGET_HOST}:8080"
+            echo "SDN topology deployed successfully on ${env.TARGET_HOST}"
+            echo "Ryu FlowManager UI available at: http://${env.TARGET_HOST}:8081"
         }
         failure {
             echo "Deployment failed. Check logs above for details."

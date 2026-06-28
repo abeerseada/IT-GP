@@ -20,6 +20,7 @@ pipeline {
                     load('Jenkins/stages/validate_parameters.groovy').call()
                     load('Jenkins/stages/clone_repo.groovy').call()
                     load('Jenkins/stages/reset_deployment.groovy').call()
+                    load('Jenkins/stages/setup_dc.groovy').call()
                     load('Jenkins/stages/deploy_topology.groovy').call()
                     load('Jenkins/stages/configure_switches.groovy').call()
                     load('Jenkins/stages/verify_deployment.groovy').call()

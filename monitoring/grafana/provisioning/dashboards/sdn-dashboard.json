@@ -1,0 +1,193 @@
+{
+  "title": "SDN Monitoring - Fat Tree k4",
+  "uid": "sdn-monitoring",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-30m", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Running SDN Nodes",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "targets": [{
+        "expr": "count(container_last_seen{name=~\"clab-fat-tree-k4-.*\"})",
+        "legendFormat": "Nodes"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 17 }
+            ]
+          },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "SDN Host Reachability",
+      "type": "stat",
+      "gridPos": { "x": 4, "y": 0, "w": 8, "h": 4 },
+      "targets": [{
+        "expr": "probe_success{job=\"sdn_ping\"}",
+        "legendFormat": "{{instance}}"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none", "textMode": "value_and_name" },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 1 }
+            ]
+          },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "SDN Controller Status",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "targets": [{
+        "expr": "container_last_seen{name=\"clab-fat-tree-k4-ctrl\"}",
+        "legendFormat": "Ryu Controller"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 1 }
+            ]
+          },
+          "color": { "mode": "thresholds" }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Ping RTT - SDN Hosts (ms)",
+      "type": "timeseries",
+      "gridPos": { "x": 16, "y": 0, "w": 8, "h": 4 },
+      "targets": [{
+        "expr": "probe_duration_seconds{job=\"sdn_ping\"} * 1000",
+        "legendFormat": "{{instance}}"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "CPU Usage per SDN Container (%)",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "rate(container_cpu_usage_seconds_total{name=~\"clab-fat-tree-k4-.*\"}[1m]) * 100",
+        "legendFormat": "{{name}}"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "Memory Usage per SDN Container",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "container_memory_usage_bytes{name=~\"clab-fat-tree-k4-.*\"}",
+        "legendFormat": "{{name}}"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Network Rx per SDN Container (bytes/s)",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 12, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "rate(container_network_receive_bytes_total{name=~\"clab-fat-tree-k4-.*\"}[1m])",
+        "legendFormat": "{{name}}"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Network Tx per SDN Container (bytes/s)",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 12, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "rate(container_network_transmit_bytes_total{name=~\"clab-fat-tree-k4-.*\"}[1m])",
+        "legendFormat": "{{name}}"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "OVS Switch Network Traffic (bytes/s)",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 20, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "rate(node_network_receive_bytes_total{device=~\"a0.*|a1.*|a2.*|a3.*|c[1-4]|e0.*|e1.*|e2.*|e3.*\"}[1m])",
+        "legendFormat": "{{device}} Rx"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "OVS Switch Tx Traffic (bytes/s)",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 20, "w": 12, "h": 8 },
+      "targets": [{
+        "expr": "rate(node_network_transmit_bytes_total{device=~\"a0.*|a1.*|a2.*|a3.*|c[1-4]|e0.*|e1.*|e2.*|e3.*\"}[1m])",
+        "legendFormat": "{{device}} Tx"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "color": { "mode": "palette-classic" }
+        }
+      }
+    }
+  ],
+  "templating": { "list": [] },
+  "annotations": { "list": [] }
+}

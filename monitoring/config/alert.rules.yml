@@ -46,3 +46,12 @@ groups:
         annotations:
           summary: "Container {{ $labels.name }} is down"
           description: "A Docker container has stopped running."
+
+      - alert: SDNHostDown
+        expr: probe_success{job="sdn_ping"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "SDN Host {{ $labels.instance }} is unreachable"
+          description: "SDN host {{ $labels.instance }} failed ping probe for more than 30 seconds - route may be down."

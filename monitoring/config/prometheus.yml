@@ -31,3 +31,7 @@ scrape_configs:
       password: 'fcis'
     static_configs:
       - targets: ['172.17.0.1:8080']
+
+  - job_name: cadvisor
+    static_configs:
+      - targets: ['cadvisor:8080']

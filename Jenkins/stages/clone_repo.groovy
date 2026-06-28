@@ -2,7 +2,7 @@ def call() {
     stage('Clone / Update Repo') {
         sshagent(credentials: [env.SSH_CREDS]) {
             sh """
-                ssh -o StrictHostKeyChecking=no ${env.SSH_USER}@${params.TARGET_HOST} '
+                ssh -o StrictHostKeyChecking=no ${env.SSH_USER}@${env.TARGET_HOST} '
                     set -e
                     if [ -d "${env.REPO_DIR}/.git" ]; then
                         echo "Pulling latest changes..."

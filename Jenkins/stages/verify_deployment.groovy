@@ -2,7 +2,7 @@ def call() {
     stage('Verify Deployment') {
         sshagent(credentials: [env.SSH_CREDS]) {
             sh """
-                ssh -o StrictHostKeyChecking=no ${env.SSH_USER}@${params.TARGET_HOST} '
+                ssh -o StrictHostKeyChecking=no ${env.SSH_USER}@${env.TARGET_HOST} '
                     echo "=== ContainerLab nodes ==="
                     sudo clab inspect -t ${env.REPO_DIR}/sdn-dcn.clab.yml
 

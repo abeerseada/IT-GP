@@ -6,7 +6,7 @@ pipeline {
         REPO_DIR   = '/opt/sdn'
         SSH_CREDS  = 'ec2-ssh-key'
         SSH_USER   = 'ubuntu'
-        TARGET_HOST = '3.121.236.53'
+        TARGET_HOST = '3.125.116.75'
     }
 
     stages {

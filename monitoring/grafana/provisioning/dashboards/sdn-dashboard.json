@@ -34,7 +34,7 @@
       "type": "stat",
       "gridPos": { "x": 4, "y": 0, "w": 8, "h": 4 },
       "targets": [{
-        "expr": "probe_success{job=\"sdn_ping\"}",
+        "expr": "probe_success{job=\"sdn_hosts_ping\"}",
         "legendFormat": "{{instance}}"
       }],
       "options": { "colorMode": "background", "graphMode": "none", "textMode": "value_and_name" },
@@ -59,7 +59,7 @@
       "type": "stat",
       "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
       "targets": [{
-        "expr": "container_last_seen{name=\"clab-fat-tree-k4-ctrl\"}",
+        "expr": "count(container_last_seen{name=\"clab-fat-tree-k4-ctrl\"}) > 0",
         "legendFormat": "Ryu Controller"
       }],
       "options": { "colorMode": "background", "graphMode": "none" },
@@ -81,7 +81,7 @@
       "type": "timeseries",
       "gridPos": { "x": 16, "y": 0, "w": 8, "h": 4 },
       "targets": [{
-        "expr": "probe_duration_seconds{job=\"sdn_ping\"} * 1000",
+        "expr": "probe_duration_seconds{job=\"sdn_hosts_ping\"} * 1000",
         "legendFormat": "{{instance}}"
       }],
       "fieldConfig": {

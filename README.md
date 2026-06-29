@@ -4,6 +4,8 @@ This repository contains the complete infrastructure-as-code and CI/CD configura
 
 ## Architecture Overview
 
+![Architecture Diagram](pics/arch.svg)
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │                      AWS Cloud                      │
@@ -130,6 +132,10 @@ Installs and configures:
 
 ![Jenkins Build #13 - Successful](pics/Screenshot%202026-03-07%20at%2012.24.49%20AM.png)
 
+**Jenkins Pipeline — Successful SDN Deployment (all stages green):**
+
+![Jenkins Pipeline Success](pics/Screenshot%202026-06-29%20at%205.29.52%E2%80%AFPM.png)
+
 ## Services & Access
 
 | Service | URL | Description |
@@ -152,6 +158,24 @@ Installs and configures:
 
 ![Node Exporter Metrics](pics/Screenshot%202026-03-06%20at%2011.04.24%20PM.png)
 
+## Grafana Dashboards
+
+**Node Exporter Full — CPU, RAM, Disk, Network:**
+
+![Node Exporter Full Dashboard](pics/Screenshot%202026-06-29%20at%205.25.26%E2%80%AFPM.png)
+
+**Docker Container & Host Metrics — 23 running containers:**
+
+![Docker Container Dashboard](pics/Screenshot%202026-06-29%20at%205.24.44%E2%80%AFPM.png)
+
+**Jenkins Performance and Health Overview:**
+
+![Jenkins Grafana Dashboard](pics/Screenshot%202026-06-29%20at%205.27.46%E2%80%AFPM.png)
+
+**SDN Monitoring — Fat Tree k=4 (all 16 hosts UP):**
+
+![SDN Monitoring Dashboard](pics/Screenshot%202026-06-29%20at%205.23.43%E2%80%AFPM.png)
+
 ## Alerts
 
 Alerts are triggered for:
@@ -160,6 +184,7 @@ Alerts are triggered for:
 - Memory usage > 85%
 - Disk usage > 85%
 - Container down
+- SDN host unreachable (route down)
 
 Notifications are delivered to Slack (`#alerts` channel).
 

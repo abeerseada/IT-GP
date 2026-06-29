@@ -7,10 +7,15 @@ def call() {
                     cd ${env.REPO_DIR}
 
                     echo "Destroying any existing ContainerLab topology..."
-                    sudo clab destroy -t sdn-dcn.clab.yml --cleanup 2>/dev/null || true
+                    sudo clab destroy --all --cleanup 2>/dev/null || true
 
                     echo "Removing OVS bridges..."
-                    bash reset-dc.sh 2>/dev/null || true
+                    sudo bash reset-dc.sh 2>/dev/null || true
+
+                    echo "Removing leftover veth interfaces..."
+                    for iface in \$(ip link show | grep -oP "(?<=\\d: )[a-z][a-z0-9]+" | grep -E "^(a|c|e)[0-9]"); do
+                        sudo ip link delete \$iface 2>/dev/null || true
+                    done
                 '
             """
         }
